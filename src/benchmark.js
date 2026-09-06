@@ -93,6 +93,7 @@ const generateContest = async (useCache, redisClient) => {
     let userRating = user.rating || 1000;
 
     const difficulty = "medium";
+    const tags = [];
 
     let targetRatings;
 
@@ -120,8 +121,6 @@ const generateContest = async (useCache, redisClient) => {
             userRating + 200,
         ];
     }
-
-    const tags = [];
 
     const selectedProblems = [];
     const used = new Set();
@@ -174,15 +173,15 @@ const generateWithoutCache = async (req, res) => {
         const result = await generateContest(false, null);
 
         return res.status(200).json({
-        mode: "without-cache",
-        time: `${result.time.toFixed(2)} ms`,
-        userInfoTime: `${result.userInfoTime.toFixed(2)} ms`,
-        userStatusTime: `${result.userStatusTime.toFixed(2)} ms`,
-        problemsetTime: `${result.problemsetTime.toFixed(2)} ms`,
-        processingTime: `${result.processingTime.toFixed(2)} ms`,
-        problemCount: result.problemCount,
-        selectedProblems: result.selectedProblems,
-});
+            mode: "without-cache",
+            time: `${result.time.toFixed(2)} ms`,
+            userInfoTime: `${result.userInfoTime.toFixed(2)} ms`,
+            userStatusTime: `${result.userStatusTime.toFixed(2)} ms`,
+            problemsetTime: `${result.problemsetTime.toFixed(2)} ms`,
+            processingTime: `${result.processingTime.toFixed(2)} ms`,
+            problemCount: result.problemCount,
+            selectedProblems: result.selectedProblems,
+        });
     } catch (error) {
         console.error("Benchmark error:", error.message);
 
